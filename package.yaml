@@ -1,0 +1,45 @@
+name:                mandelbrot
+version:             0.1.0.0
+github:              "b-mehta/mandelbrot"
+license:             BSD3
+author:              "Bhavik Mehta"
+maintainer:          "bhavikmehta8@gmail.com"
+copyright:           "2018 Bhavik Mehta"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/b-mehta/mandelbrot#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+
+executables:
+  mandelbrot-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -O2
+    - -threaded
+    - -rtsopts
+    dependencies:
+    - mandelbrot
+    - JuicyPixels >= 3.2
+
+tests:
+  mandelbrot-test:
+    main:                Spec.hs
+    source-dirs:         test
+    dependencies:
+    - mandelbrot
