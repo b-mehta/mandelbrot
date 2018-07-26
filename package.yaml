@@ -23,7 +23,6 @@ dependencies:
 - base >= 4.7 && < 5
 - vector >= 0.12
 - containers >= 0.5
-- ansi-terminal >= 0.8
 
 library:
   source-dirs: src
@@ -31,8 +30,8 @@ library:
     - -O2
 
 executables:
-  mandelbrot-exe:
-    main:                Main.hs
+  mandelbrot:
+    main:                Mandel.hs
     source-dirs:         app
     ghc-options:
     - -O2
@@ -40,10 +39,12 @@ executables:
     dependencies:
     - mandelbrot
     - JuicyPixels >= 3.2
+    - ansi-terminal >= 0.8
+    - optparse-applicative >= 0.14
 
-tests:
-  mandelbrot-test:
-    main:                Spec.hs
-    source-dirs:         test
-    dependencies:
-    - mandelbrot
+      # tests:
+      #   mandelbrot-test:
+      #     main:                Spec.hs
+      #     source-dirs:         test
+      #     dependencies:
+      #     - mandelbrot
