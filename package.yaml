@@ -21,9 +21,14 @@ description:         Please see the README on GitHub at <https://github.com/b-me
 
 dependencies:
 - base >= 4.7 && < 5
+- vector >= 0.12
+- containers >= 0.5
+- ansi-terminal >= 0.8
 
 library:
   source-dirs: src
+  ghc-options:
+    - -O2
 
 executables:
   mandelbrot-exe:
@@ -31,7 +36,6 @@ executables:
     source-dirs:         app
     ghc-options:
     - -O2
-    - -threaded
     - -rtsopts
     dependencies:
     - mandelbrot

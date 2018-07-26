@@ -1,37 +1,40 @@
 module Main where
 
-import Codec.Picture                (generateImage, writePng, PixelRGB8(..), Image, Pixel8)
+import Codec.Picture                (withImage, writePng, PixelRGB8(..), Image)
 import Lib                          (compute, Cutoff(..))
-import Data.Complex                 (Complex(..))
+import Colour                       (makePixel)
+import System.Console.ANSI
+import Text.Printf
+import System.Environment
+import Control.Monad (when)
 
-makeImage :: (Complex Double, Complex Double) -> (Int,Int) -> Cutoff -> Image PixelRGB8
-makeImage (x1 :+ y1, x2 :+ y2) (xNum, yNum) m = generateImage pixelRenderer xNum yNum
-  where pixelRenderer x y = makePixel $ compute m $ (linearScale (x1,x2) xNum x :+ linearScale (y2,y1) yNum y)
+makeImage :: (Double,Double) -> Double -> Int -> Cutoff -> IO (Image PixelRGB8)
+makeImage (c1,c2) l num m =
+  let step = num `div` 1000
+      pixelRenderer x y = do when (x == 0 && y `mod` step == 0) $ do
+                               cursorUpLine 1 >> clearLine
+                               putStrLn (printf "Rendering: %4.1f%%" ((fromIntegral $ y * 1000 `div` num) / 10 :: Float))
+                             return $ makePixel $ compute m (linearScale c1 l num x) (linearScale c2 (-l) num y)
+   in do 
+     putStrLn ""
+     img <- withImage num num pixelRenderer 
+     cursorUpLine 1 >> clearLine
+     return img
 
-makePixel :: Maybe Int -> PixelRGB8
-makePixel Nothing  = PixelRGB8 0 0 0
-makePixel (Just n) = PixelRGB8 0 t t
-  where t = fromIntegral $ fold n
+linearScale :: Fractional a => a -> a -> Int -> Int -> a
+linearScale c width steps i = (fromIntegral i) / (fromIntegral steps) * width + (c - width/2)
 
-fold :: Int -> Int
-fold n
-  | m < 256   = m
-  | otherwise = 512 - m
-  where m = (7 * n) `mod` 512
+egPoint, egPoint2, egPoint3 :: (Double,Double)
+egPoint =  (-0.73258263759
+           ,-0.24114713638)
+egPoint2 = (-1.47904448099716
+           , 0.0107524846974)
+egPoint3 = (-1.258489538063
+           , 0.382359645113)
 
-linearScale :: Fractional a => (a, a) -> Int -> Int -> a
-linearScale (l,r) steps i = (fromIntegral i) / (fromIntegral steps) * (r - l) + l
-
-type Range a = (a,a)
-
-wholeScale, neckScale :: Range (Complex Double)
-wholeScale = ((-2) :+ (-1.5), 1 :+ 1.5)
-neckScale = ((-0.9) :+ (-0.3), (-0.6) :+ 0)
-
-largeImg, medImg, miniImg :: Range Int
-largeImg = (5000,5000)
-medImg = (1000,1000)
-miniImg = (50,50)
+run :: [String] -> IO ()
+run [x,y,z,a,b] = writePng "test.png" =<< makeImage (read x, read y) (read z) (read a) (Cutoff $ read b)
+run _ = errorWithoutStackTrace "invalid inputs given"
 
 main :: IO ()
-main = writePng "mandelbrot.png" $! (makeImage neckScale largeImg (Cutoff 1000) :: Image PixelRGB8)
+main = getArgs >>= run
