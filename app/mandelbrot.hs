@@ -1,8 +1,11 @@
 import GenImages (makeImg, Setting(..))
 
 import Codec.Picture                (writePng)
-import Data.Number.Fixed
 import Options.Applicative
+
+-- -0.54899998583216
+--  0.60400300965798
+--  0.0000000000003
 
 egPoint, egPoint2, egPoint3, egPoint4 :: (Double,Double)
 egPoint =  (-0.73258263759

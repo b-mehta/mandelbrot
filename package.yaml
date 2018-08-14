@@ -10,37 +10,29 @@ extra-source-files:
 - README.md
 - ChangeLog.md
 
-# Metadata used when publishing your package
-# synopsis:            Short description of your package
-# category:            Web
-
-# To avoid duplicated efforts in documentation and dealing with the
-# complications of embedding Haddock markup inside cabal files, it is
-# common to point users to the README.md file.
 description:         Please see the README on GitHub at <https://github.com/b-mehta/mandelbrot#readme>
 
 dependencies:
 - base >= 4.7 && < 5
 - vector >= 0.12
 - containers >= 0.5
+- ansi-terminal >= 0.8
+- JuicyPixels >= 3.2
+- optparse-applicative >= 0.14
+
+ghc-options:
+  - -O2
 
 library:
   source-dirs: src
-  ghc-options:
-    - -O2
 
 executables:
   mandelbrot:
-    main:                Mandel.hs
     source-dirs:         app
-    ghc-options:
-    - -O2
-    - -rtsopts
-    dependencies:
-    - mandelbrot
-    - JuicyPixels >= 3.2
-    - ansi-terminal >= 0.8
-    - optparse-applicative >= 0.14
+    main:                mandelbrot.hs
+  mandelbrot-video:
+    source-dirs:         app
+    main:                mandelbrot-video.hs
 
       # tests:
       #   mandelbrot-test:
