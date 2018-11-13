@@ -33,10 +33,3 @@ executables:
   mandelbrot-video:
     source-dirs:         app
     main:                mandelbrot-video.hs
-
-      # tests:
-      #   mandelbrot-test:
-      #     main:                Spec.hs
-      #     source-dirs:         test
-      #     dependencies:
-      #     - mandelbrot

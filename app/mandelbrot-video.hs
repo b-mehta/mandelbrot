@@ -22,7 +22,7 @@ size = 2048
 
 main :: IO ()
 main = do
-  let images = ((makeImage <$> mkSettings size))
+  let images = makeImage <$> mkSettings size
   print (length images)
   imageWrite size size "out.mp4" images
 
