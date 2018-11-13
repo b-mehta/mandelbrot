@@ -19,12 +19,12 @@ dependencies:
 - ansi-terminal >= 0.8
 - JuicyPixels >= 3.2
 - optparse-applicative >= 0.14
+- ffmpeg-light >= 0.12.2.2
 
 ghc-options:
   - -O2
 
-library:
-  source-dirs: src
+source-dirs: src
 
 executables:
   mandelbrot:

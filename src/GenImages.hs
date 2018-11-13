@@ -1,4 +1,4 @@
-module GenImages (Setting(..), makeImg) where
+module GenImages (Setting(..), makeImg, makeImage, makeImageProgress, Precision) where
 
 import Lib                          (compute)
 import Colour                       (makePixel)
@@ -37,9 +37,9 @@ makeImage (Setting c1 c2 l num m) =
    in generateImage pixelRenderer num num
 
 makeImg :: Setting -> IO (Image PixelRGB8)
-makeImg c@(Setting _ _ _ n _)
-  | n >= 32 = makeImageProgress c
-  | otherwise = return $ makeImage c
+makeImg c
+  | width c >= 32 = makeImageProgress c
+  | otherwise     = return $ makeImage c
 
 linearScale :: Fractional a => a -> a -> Int -> Int -> a
 linearScale c w steps i = (fromIntegral i) / (fromIntegral steps) * w + (c - w/2)
