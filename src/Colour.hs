@@ -6,7 +6,7 @@ import Codec.Picture                (PixelRGB8(..))
 makePixel :: Real a => Maybe (Int, a) -> PixelRGB8
 makePixel Nothing  = PixelRGB8 0 0 0
 makePixel (Just (n,zn)) = PixelRGB8 (toPix a) (toPix b) (toPix c)
-  where (a,b,c) = getVal $ snd . properFraction $! log (1 + (fromIntegral n + 1 - nu) / 50)
+  where (a,b,c) = getVal $ snd . properFraction $! log (1 + (fromIntegral n + 1 - nu) / 80)
         nu = logBase 2 (logBase 2 (realToFrac zn))
 
 toPix :: Double -> Word8

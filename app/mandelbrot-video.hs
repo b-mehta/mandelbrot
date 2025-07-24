@@ -1,4 +1,3 @@
-{-# LANGUAGE PartialTypeSignatures, ParallelListComp #-}
 import Codec.Picture.Types
 import Codec.FFmpeg.Juicy
 import Codec.FFmpeg
@@ -15,10 +14,10 @@ mkSettings :: Int -> [Setting]
 mkSettings w = zipWith5 Setting (repeat x) (repeat y) zooms (repeat w) (repeat 10000)
 
 zooms :: [Precision]
-zooms = takeWhile (> lim) $ iterate (*0.99) 3
+zooms = takeWhile (> lim) $ iterate (*0.95) 3
 
 size :: Int
-size = 2048
+size = 1024
 
 main :: IO ()
 main = do
